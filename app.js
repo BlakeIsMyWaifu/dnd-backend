@@ -1,6 +1,7 @@
 import express from 'express';
+
 import api from './api.js';
-import { port, cachedIds, cacheTime } from './config.js';
+import { cacheTime, cachedIds, port } from './config.js';
 
 const app = express();
 const timestamp = () => {
@@ -23,7 +24,7 @@ setInterval(async () => {
 		cache[cachedIds[i]] = data;
 		log(`${cachedIds[i]} was cached`);
 	}
-}, cacheTime * 1000);
+}, cacheTime);
 
 app.get('/character/:id', async (req, res) => {
 	if (Object.keys(cache).includes(req.params.id)) {
