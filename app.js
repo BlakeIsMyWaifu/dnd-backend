@@ -16,18 +16,18 @@ const timestamp = () => {
 };
 const log = message => console.log(`${timestamp()} ${message}`);
 
-var cache = {};
+var cache = Object.assign({}, ...cachedIds.map(id => ({[id]: null})));
 setInterval(async () => {
-	cache = {};
-	for (let i = 0; i < cachedIds.length; i++) {
-		let data = await api(cachedIds[i]);
-		cache[cachedIds[i]] = data;
-		log(`${cachedIds[i]} was cached`);
+	const ids = Object.keys(cache);
+	for (let i = 0; i < ids.length; i++) {
+		const data = await api(ids[i]);
+		cache[ids[i]] = data;
+		log(`${ids[i]} was cached`);
 	}
 }, cacheTime);
 
 app.get('/character/:id', async (req, res) => {
-	if (Object.keys(cache).includes(req.params.id)) {
+	if (cache[req.params.id]) {
 		log(`${req.params.id} was taked from cache`);
 		return res.send(cache[req.params.id]);
 	} else {
