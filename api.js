@@ -41,6 +41,14 @@ export default async id => {
 
 	const html = await page.content();
 	const $ = cheerio.load(html);
+
+	{
+		const errorBox = $('.ui-dialog');
+		if (errorBox.length) {
+			await page.click('ui-dialog-titlebar-close');
+		}
+	}
+
 	var out = {
 		status: true,
 		armourclass: {
