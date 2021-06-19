@@ -1,7 +1,7 @@
 import express from 'express';
 
 import api from './api.js';
-import { cacheTime, cachedIds, port } from './config.js';
+import { cacheTime, cachedIds, manualMode, port } from './config.js';
 
 const app = express();
 const timestamp = () => {
@@ -21,19 +21,33 @@ setInterval(async () => {
 	const ids = Object.keys(cache);
 	for (let i = 0; i < ids.length; i++) {
 		const data = await api(ids[i]);
-		cache[ids[i]] = data;
-		log(`${ids[i]} was cached`);
+		if (data.status) {
+			cache[ids[i]] = data;
+			log(`${ids[i]} was cached`);
+		} else {
+			log(`${ids[i]} failed to cache`);
+		}
 	}
 }, cacheTime);
 
 app.get('/character/:id', async (req, res) => {
-	if (cache[req.params.id]) {
-		log(`${req.params.id} was taked from cache`);
-		return res.send(cache[req.params.id]);
+	const { id } = req.params;
+	if (manualMode) {
+		log(`${id} was requested in manual mode`);
+		return res.send(data);
+	}
+	log(`${id} was requested`);
+	if (cache[id]) {
+		log(`${id} was taked from cache`);
+		return res.send(cache[id]);
 	} else {
-		const data = await api(req.params.id);
-		cache[req.params.id] = data;
-		log(`${req.params.id} was freshly taken`);
+		const data = await api(id);
+		if (data.status) {
+			cache[id] = data;
+			log(`${id} was freshly taken`);
+		} else {
+			log(`${id} failed to be freshly taken`);
+		}
 		return res.send(data);
 	}
 });

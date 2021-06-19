@@ -1,6 +1,8 @@
 import cheerio from 'cheerio';
 import puppeteer from 'puppeteer';
 
+import { manualMode } from './config.js';
+
 Object.prototype.inner = function() {
 	return this.children[0].data;
 }
@@ -16,8 +18,9 @@ const statAbbreviation = {
 
 export default async id => {
 	const instance = await puppeteer.launch({
-		headless: true,
-		args: ['--window-size=1920,1080']
+		headless: !manualMode,
+		args: ['--window-size=1920,1080'],
+		userDataDir: './userdata'
 	});
 	const page = await instance.newPage();
 
@@ -25,7 +28,11 @@ export default async id => {
 		width: 1920,
 		height: 1080
 	});
-	await page.goto(`https://www.dndbeyond.com/characters/${id}`);
+
+	await page.goto(`https://www.dndbeyond.com/characters/${id}`, {timeout: 0});
+
+	if (manualMode) return ({ status: false });
+
 	const wait = await page.waitForSelector('.ct-character-sheet-desktop', { timeout: 10000 }).catch(err => {
 		console.error('\x1b[31m%s\x1b[0m', err);
 		return false;

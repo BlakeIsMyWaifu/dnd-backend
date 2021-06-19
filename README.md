@@ -53,9 +53,19 @@ Requires Node 14+ installed
 
 ## Usage
 
-Once you've been through the getting started steps the express server should be live
+Since the latest update to D&D Beyond you must be logged in to view characters.
+To get around this you must launch in manual mode so you can login with Twitch.
+To change to manual mode change `manualMode` to `true` in `config.js`
+You must login with Twitch because the other two don't allow login to browsers that are automated.
+The session data will be saved automaticly meaning it will log in to your Twitch account each time.
+If you link your Twitch to your normal Google or Apple account then it will be the same account.
+This also allows you to view otherwise private characters that you otherwise wouldn't have been able to do.
+
 It will scrap the data every 90 seconds by default, but this can be changed in `config.js`.
-If you change the interval timer make sure not to make it too short as to get temporarily get blocked by D&D Beyond. The same issue may arise if you have too many characters.
+
+If you change the interval timer make sure not to make it too short as to get temporarily get blocked by D&D Beyond.
+The same issue may arise if you have too many characters.
+
 The minecraft plugin to go with it will do the rest of the work
 
 ## Contact
