@@ -34,6 +34,7 @@ app.get('/character/:id', async (req, res) => {
 	const { id } = req.params;
 	if (manualMode) {
 		log(`${id} was requested in manual mode`);
+		const data = await api(id);
 		return res.send(data);
 	}
 	log(`${id} was requested`);
