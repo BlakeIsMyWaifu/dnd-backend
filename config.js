@@ -1,7 +1,7 @@
 const config = {
 	port: 3000,
 	cachedIds: [],
-	cacheTime: 90e3,
+	cacheTime: 120e3,
 	manualMode: false
 };
 
