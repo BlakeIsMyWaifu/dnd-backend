@@ -1,8 +1,8 @@
 import express from 'express'
 
-import api from './api.js'
 import { autoFetch, manualMode, port } from './config.js'
-import { logError, logMessage } from './utils.js'
+import api from './src/api.js'
+import { logError, logMessage } from './src/utils.js'
 
 const app = express()
 

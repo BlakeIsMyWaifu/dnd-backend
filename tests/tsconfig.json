@@ -1,0 +1,41 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"lib": [
+			"ESNext"
+		],
+		"types": [
+			"node",
+			"jest"
+		],
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false,
+		"alwaysStrict": true,
+		"strict": true,
+		"exactOptionalPropertyTypes": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noUncheckedIndexedAccess": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"strictBindCallApply": true,
+		"strictFunctionTypes": true,
+		"strictNullChecks": true,
+		"strictPropertyInitialization": true,
+		"useUnknownInCatchVariables": true,
+		"baseUrl": "../src",
+		"esModuleInterop": true,
+		"moduleResolution": "node",
+		"allowJs": true,
+		"outDir": "./dist"
+	},
+	"include": [
+		"**/*test.ts",
+		"**/*test.js"
+	],
+	"exclude": [
+		"node_modules"
+	]
+}
