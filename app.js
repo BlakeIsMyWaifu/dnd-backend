@@ -1,26 +1,29 @@
 import express from 'express'
 
 import api from './api.js'
-import { cacheTime, cachedIds, manualMode, port } from './config.js'
-import { logError, logMessage } from './utils'
+import { autoFetch, manualMode, port } from './config.js'
+import { logError, logMessage } from './utils.js'
 
 const app = express()
 
+const { enabled, cachedIds, cacheTime } = autoFetch
+
 const cache = Object.assign({}, ...cachedIds.map(id => ({ [id]: null })))
 
-setInterval(async () => {
-	const ids = Object.keys(cache)
-	for (const id of ids) {
-		const data = await api(id, manualMode).catch(logError)
-		if (data?.status) {
-			cache[id] = data
-			logMessage(`${id} was cached`)
-		} else {
-			logMessage(`${id} failed to cache`)
-			await api(id, true).catch(logError)
+if (enabled) {
+	setInterval(async () => {
+		for (const id of Object.keys(cache)) {
+			const data = await api(id, manualMode).catch(logError)
+			if (data?.status) {
+				cache[id] = data
+				logMessage(`${id} was cached`)
+			} else {
+				logMessage(`${id} failed to cache`)
+				await api(id, true).catch(logError)
+			}
 		}
-	}
-}, cacheTime)
+	}, cacheTime)
+}
 
 app.get('/character/:id', async (req, res) => {
 	const { id } = req.params

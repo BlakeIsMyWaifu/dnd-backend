@@ -1,7 +1,7 @@
 import { load } from 'cheerio'
 import puppeteer from 'puppeteer'
 
-import { logError, statAbbreviation } from './utils'
+import { logError, statAbbreviation } from './utils.js'
 
 Object.prototype.inner = function () {
 	return this.children[0].data
@@ -35,7 +35,7 @@ export default async (id, isHeadless) => {
 
 	if (isHeadless) return ({ status: false })
 
-	const wait = await page.waitForSelector('.ct-character-sheet-desktop', { timeout: 60_000 }).catch(error => {
+	const wait = await page.waitForSelector('.ct-character-sheet-desktop', { timeout: 60e3 }).catch(error => {
 		logError(error)
 		return false
 	})

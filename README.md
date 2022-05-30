@@ -39,11 +39,15 @@ Requires Node 14+ installed
 3. (Optional) Add D&D Beyond ids in `config.js`
 
     ```JS
-    export const
-        port = 3000,
-        cachedIds = [123456789, 98754321], // <-- here
-        cacheTime = 90e3;
+    const config = {
+        port: 3000,
+        autoFetch: {
+            enabled: false, // <-- set this to true
+            cachedIds: [123456789, 98754321], // <-- add ids here
+            cacheTime: 60e3
+        },
         manualMode: false
+    }
     ```
 
 4. Run

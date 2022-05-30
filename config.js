@@ -1,10 +1,13 @@
 const config = {
 	port: 3000,
-	cachedIds: [],
-	cacheTime: 120e3,
+	autoFetch: {
+		enabled: false,
+		cachedIds: [],
+		cacheTime: 60e3
+	},
 	manualMode: false
 }
 
-export const { port, cachedIds, cacheTime, manualMode } = config
+export const { port, autoFetch, manualMode } = config
 
 export default config

@@ -48,6 +48,15 @@
 			"warn",
 			"always"
 		],
-		"no-trailing-spaces": "warn"
+		"no-trailing-spaces": "warn",
+		"no-unused-vars": [
+			"warn",
+			{
+				"vars": "all",
+				"args": "after-used",
+				"argsIgnorePattern": "^_"
+			}
+		],
+		"no-empty-function": "warn"
 	}
 }
