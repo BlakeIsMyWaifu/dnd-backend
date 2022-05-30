@@ -1,6 +1,6 @@
 {
   "name": "dnd-backend",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "D&D Beyond web scraper",
   "repository": {
     "type": "git",
@@ -8,7 +8,8 @@
   },
   "main": "app.js",
   "scripts": {
-    "start": "node ."
+    "start": "node .",
+    "lint": "eslint . --fix"
   },
   "author": "Joel Dohm-Karatjas",
   "license": "MIT",
@@ -19,6 +20,7 @@
   },
   "type": "module",
   "devDependencies": {
-    "@types/puppeteer": "^5.4.6"
+    "@types/puppeteer": "^5.4.6",
+    "eslint": "^8.16.0"
   }
 }

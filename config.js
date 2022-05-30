@@ -3,8 +3,8 @@ const config = {
 	cachedIds: [],
 	cacheTime: 120e3,
 	manualMode: false
-};
+}
 
-export const { port, cachedIds, cacheTime, manualMode } = config;
+export const { port, cachedIds, cacheTime, manualMode } = config
 
-export default config;
+export default config
