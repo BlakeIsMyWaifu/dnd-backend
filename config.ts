@@ -1,4 +1,14 @@
-const config = {
+interface Config {
+	port: number;
+	autoFetch: {
+		enabled: boolean;
+		cachedIds: number[];
+		cacheTime: number;
+	},
+	manualMode: boolean;
+}
+
+const config: Config = {
 	port: 3000,
 	autoFetch: {
 		enabled: false,

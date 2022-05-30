@@ -1,10 +1,10 @@
-import express from 'express'
+import * as express from 'express'
 
-import { autoFetch, manualMode, port } from './config.js'
-import api from './src/api.js'
-import { logError, logMessage } from './src/utils.js'
+import { autoFetch, manualMode, port } from './config'
+import api from './src/api'
+import { logError, logMessage } from './src/utils'
 
-const app = express()
+const app: express.Application = express()
 
 const { enabled, cachedIds, cacheTime } = autoFetch
 

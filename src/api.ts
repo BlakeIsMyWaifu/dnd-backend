@@ -1,7 +1,9 @@
-import { load } from 'cheerio'
-import puppeteer from 'puppeteer'
+// @ts-nocheck
 
-import { logError, statAbbreviation } from './utils.js'
+import { load } from 'cheerio'
+import * as puppeteer from 'puppeteer'
+
+import { logError, statAbbreviation } from './utils'
 
 Object.prototype.inner = function () {
 	return this.children[0].data
@@ -15,7 +17,7 @@ Object.prototype.aria = function () {
 	return this.attribs['aria-label']
 }
 
-export default async (id, isHeadless) => {
+export default async (id: number | string, isHeadless: boolean) => {
 	const instance = await puppeteer.launch({
 		headless: !isHeadless,
 		args: ['--window-size=1920,1080'],
