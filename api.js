@@ -1,6 +1,8 @@
 import { load } from 'cheerio'
 import puppeteer from 'puppeteer'
 
+import { logError, statAbbreviation } from './utils'
+
 Object.prototype.inner = function () {
 	return this.children[0].data
 }
@@ -11,11 +13,6 @@ Object.prototype.data = function () {
 
 Object.prototype.aria = function () {
 	return this.attribs['aria-label']
-}
-
-const statAbbreviation = {
-	'STR': 'strength', 'DEX': 'dexterity', 'CON': 'consitution',
-	'INT': 'intelligence', 'WIS': 'wisdom', 'CHA': 'charisma'
 }
 
 export default async (id, isHeadless) => {
@@ -38,8 +35,8 @@ export default async (id, isHeadless) => {
 
 	if (isHeadless) return ({ status: false })
 
-	const wait = await page.waitForSelector('.ct-character-sheet-desktop', { timeout: 60_000 }).catch(err => {
-		console.error('\x1b[31m%s\x1b[0m', err)
+	const wait = await page.waitForSelector('.ct-character-sheet-desktop', { timeout: 60_000 }).catch(error => {
+		logError(error)
 		return false
 	})
 
@@ -48,7 +45,7 @@ export default async (id, isHeadless) => {
 
 	if (!wait) {
 		if ($('.ct-character-sheet--failed').length) {
-			console.error('\x1b[31m%s\x1b[0m', 'Character Sheet Failed')
+			logError('Character Sheet Failed')
 		}
 		return ({ status: false })
 	}
@@ -92,7 +89,7 @@ export default async (id, isHeadless) => {
 		const _html = await page.content()
 		const _$ = load(_html)
 		const scores = []
-		_$('.ddbc-ability-score-manager__component-value').each((i, element) => {
+		_$('.ddbc-ability-score-manager__component-value').each((_i, element) => {
 			if (element.children[0].type === 'text') {
 				scores.push(+element.inner())
 			} else {
@@ -210,13 +207,12 @@ export default async (id, isHeadless) => {
 			const value = element.children[0].children[0].children[1].inner()
 			const sourceRoot = element.children[1]
 			const type = sourceRoot.children[0].inner()
-			// const source = sourceRoot.children.length === 1 ? null : sourceRoot.children[1].children[1].inner();
 			const source = sourceRoot?.children[1]?.children[1]?.inner()
 			out.armourclass.modifier.push({ value, type, source })
 		})
 	}
 
-	$('.ct-defenses-summary__group').each((i, element) => {
+	$('.ct-defenses-summary__group').each((_i, element) => {
 		const type = element.children[0].children[0].data()
 		element.children[1].children.forEach(defence => {
 			out.defences.push({
@@ -227,7 +223,7 @@ export default async (id, isHeadless) => {
 		})
 	})
 
-	$('.ddbc-condition__name').each((i, element) => {
+	$('.ddbc-condition__name').each((_i, element) => {
 		let condition = element.inner()
 		if (element.children.length === 2) condition += element.children[1].inner()
 		out.conditions.push(condition)
